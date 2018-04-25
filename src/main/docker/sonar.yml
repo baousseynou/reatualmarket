@@ -1,6 +1,21 @@
 version: '2'
+
 services:
-    reatualmarket-sonar:
-        image: sonarqube:6.5-alpine
-        ports:
-            - 9092:9092
+  reatualmarket-sonar:
+    image: sonarqube
+    ports:
+      - "9000:9092"
+    networks:
+      - sonarnet
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar
+  db:
+    image: postgres
+    networks:
+      - sonarnet
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+networks:
+  sonarnet:
+    driver: bridge
